@@ -43,22 +43,19 @@ class TestPart1(unittest.TestCase):
         pass
 
     def test_valid_room(self):
-        self.assertTrue(security_through_obscurity.is_valid_room(
-            security_through_obscurity.parse_room('aaaaa-bbb-z-y-x-123[abxyz]')))
+        self.assertTrue(security_through_obscurity.Room.from_text('aaaaa-bbb-z-y-x-123[abxyz]').is_valid())
 
     def test_valid_room_with_more_than_5_letters(self):
-        self.assertTrue(security_through_obscurity.is_valid_room(
-            security_through_obscurity.parse_room('a-b-c-d-e-f-g-h-987[abcde]')))
+        self.assertTrue(security_through_obscurity.Room.from_text('a-b-c-d-e-f-g-h-987[abcde]').is_valid())
 
     def test_fetch_sector_id(self):
-        self.assertEqual('123', security_through_obscurity.parse_room('aaaaa-bbb-z-y-x-123[abxyz]')['sector_id'])
+        self.assertEqual(123, security_through_obscurity.Room.from_text('aaaaa-bbb-z-y-x-123[abxyz]').sector_id)
 
     def test_fetch_checksum(self):
-        self.assertEqual('abxyz', security_through_obscurity.parse_room('aaaaa-bbb-z-y-x-123[abxyz]')['checksum'])
+        self.assertEqual('abxyz', security_through_obscurity.Room.from_text('aaaaa-bbb-z-y-x-123[abxyz]').checksum)
 
     def test_decoy_room(self):
-        self.assertFalse(security_through_obscurity.is_valid_room(
-            security_through_obscurity.parse_room('totally-real-room-200[decoy]')))
+        self.assertFalse(security_through_obscurity.Room.from_text('totally-real-room-200[decoy]').is_valid())
 
     def test_sum_sector_id_of_valid_rooms(self):
         self.assertEqual(1514, security_through_obscurity.sum_sector_id_of_valid_rooms(
