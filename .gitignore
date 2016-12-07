@@ -1,0 +1,8 @@
+AUTHORS
+ChangeLog
+*.egg-info
+.tox
+.idea
+*.iml
+*.pyc
+__pycache__
