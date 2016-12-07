@@ -39,9 +39,6 @@ class TestPart1(unittest.TestCase):
 
     """
 
-    def setUp(self):
-        pass
-
     def test_valid_room(self):
         self.assertTrue(security_through_obscurity.Room.from_text('aaaaa-bbb-z-y-x-123[abxyz]').is_valid())
 
@@ -69,3 +66,43 @@ class TestPart1(unittest.TestCase):
         with open(join(dirname(__file__), 'resources', 'security_through_obscurity.txt')) as f:
             puzzle_input = f.read()
         self.assertEqual(361724, security_through_obscurity.sum_sector_id_of_valid_rooms(puzzle_input))
+
+
+class TestPart2(unittest.TestCase):
+    """
+    --- Part Two ---
+
+    With all the decoy data out of the way, it's time to decrypt this list
+    and get moving.
+
+    The room names are encrypted by a state-of-the-art shift cipher, which is
+    nearly unbreakable without the right software. However, the information
+    kiosk designers at Easter Bunny HQ were not expecting to deal with a
+    master cryptographer like yourself.
+
+    To decrypt a room name, rotate each letter forward through the alphabet a
+    number of times equal to the room's sector ID. A becomes B, B becomes C,
+    Z becomes A, and so on. Dashes become spaces.
+
+    For example, the real name for qzmt-zixmtkozy-ivhz-343 is
+    very encrypted name.
+
+    What is the sector ID of the room where North Pole objects are stored?
+
+    """
+
+    def test_decrypted_name(self):
+        self.assertEqual(
+            'very encrypted name',
+            security_through_obscurity.Room(
+                encrypted_name='qzmt-zixmtkozy-ivhz',
+                sector_id=343,
+                checksum=''
+            ).name)
+
+    def test_puzzle_input(self):
+        with open(join(dirname(__file__), 'resources', 'security_through_obscurity.txt')) as f:
+            puzzle_input = f.read()
+        self.assertEqual(482, next(
+            room.sector_id for room in security_through_obscurity.valid_rooms(puzzle_input)
+            if room.name == 'northpole object storage'))
