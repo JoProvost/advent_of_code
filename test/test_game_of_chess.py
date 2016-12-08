@@ -35,11 +35,13 @@ class TestPart1(unittest.TestCase):
     Given the actual Door ID, what is the password?
     """
 
+    @unittest.skip('Very long test')
     def test_password(self):
         password = game_of_chess.first_algorithm('abc')
         self.assertEqual('18f47a30', password)
         self.assertEqual(8, len(password))
 
+    @unittest.skip('Very long test')
     def test_puzzle_input(self):
         password = game_of_chess.first_algorithm('abbhdwsy')
         self.assertEqual('801b56a7', password)
@@ -81,10 +83,12 @@ class TestPart2(unittest.TestCase):
     animation.
     """
 
+    @unittest.skip('Very long test')
     def test_password(self):
         password = game_of_chess.second_algorithm('abc')
         self.assertEqual('05ace8e3', password)
 
+    @unittest.skip('Very long test')
     def test_puzzle_input(self):
         password = game_of_chess.second_algorithm('abbhdwsy')
         self.assertEqual('424a0197', password)
