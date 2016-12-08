@@ -148,8 +148,9 @@ class TestPart1(unittest.TestCase):
             """\
             .#..#.#
             #.#....
-            .#....."""),
-            display.show_pixels()
+            .#.....
+            """),
+            display.show_pixels() + '\n'
         )
 
     def test_puzzle_input(self):
@@ -158,3 +159,30 @@ class TestPart1(unittest.TestCase):
         display = two_factor_authentication.PixelDisplay(width=50, height=6)
         display.execute(puzzle_input)
         self.assertEqual(121, display.pixels_on())
+
+
+class TestPart2(unittest.TestCase):
+    """
+    --- Part Two ---
+
+    You notice that the screen is only capable of displaying capital letters;
+    in the font it uses, each letter is 5 pixels wide and 6 tall.
+
+    After you swipe your card, what code is the screen trying to display?
+    """
+
+    def test_puzzle_input(self):
+        with open(join(dirname(__file__), 'resources', 'two_factor_authentication.txt')) as f:
+            puzzle_input = f.read()
+        display = two_factor_authentication.PixelDisplay(width=50, height=6)
+        display.execute(puzzle_input)
+        self.assertEqual(dedent(
+            """\
+            ###..#..#.###..#..#..##..####..##..####..###.#....
+            #..#.#..#.#..#.#..#.#..#.#....#..#.#......#..#....
+            #..#.#..#.#..#.#..#.#....###..#..#.###....#..#....
+            ###..#..#.###..#..#.#....#....#..#.#......#..#....
+            #.#..#..#.#.#..#..#.#..#.#....#..#.#......#..#....
+            #..#..##..#..#..##...##..####..##..####..###.####.
+            """),
+            display.show_pixels() + '\n')
