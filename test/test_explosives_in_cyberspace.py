@@ -1,7 +1,7 @@
 import unittest
 from os.path import dirname, join
 
-from explosives_in_cyberspace import uncompress_text, uncompress_size_recursive
+from explosives_in_cyberspace import expand_text, expanded_size
 
 
 class TestPart1(unittest.TestCase):
@@ -47,22 +47,23 @@ class TestPart1(unittest.TestCase):
     """
 
     def test_no_marker(self):
-        self.assertEqual('ADVENT', uncompress_text('ADVENT'))
+        self.assertEqual('ADVENT', expand_text('ADVENT'))
 
     def test_simple(self):
-        self.assertEqual('ABBBBBC', uncompress_text('A(1x5)BC'))
+        self.assertEqual('ABBBBBC', expand_text('A(1x5)BC'))
 
     def test_tag_in_data(self):
-        self.assertEqual('(1x3)A', uncompress_text('(6x1)(1x3)A'))
+        self.assertEqual('(1x3)A', expand_text('(6x1)(1x3)A'))
 
     def test_complex(self):
-        self.assertEqual('X(3x3)ABC(3x3)ABCY', uncompress_text('X(8x2)(3x3)ABCY'))
-        self.assertEqual('ABCBCDEFEFG', uncompress_text('A(2x2)BCD(2x2)EFG'))
+        self.assertEqual('X(3x3)ABC(3x3)ABCY', expand_text('X(8x2)(3x3)ABCY'))
+        self.assertEqual('ABCBCDEFEFG', expand_text('A(2x2)BCD(2x2)EFG'))
 
     def test_puzzle_input(self):
         with open(join(dirname(__file__), 'resources', 'explosives_in_cyberspace.txt')) as f:
             puzzle_input = f.read()
-        self.assertEqual(183269, len(uncompress_text(puzzle_input.strip())))
+        self.assertEqual(183269, len(expand_text(puzzle_input.strip())))
+        self.assertEqual(183269, expanded_size(puzzle_input.strip()))
 
 
 class TestPart2(unittest.TestCase):
@@ -97,4 +98,4 @@ class TestPart2(unittest.TestCase):
     def test_puzzle_input(self):
         with open(join(dirname(__file__), 'resources', 'explosives_in_cyberspace.txt')) as f:
             puzzle_input = f.read()
-        self.assertEqual(11317278863, uncompress_size_recursive(puzzle_input.strip()))
+        self.assertEqual(11317278863, expanded_size(puzzle_input.strip(), recursive=True))
