@@ -1,7 +1,7 @@
 import unittest
 from os.path import dirname, join
 
-from explosives_in_cyberspace import uncompress_text
+from explosives_in_cyberspace import uncompress_text, uncompress_size_recursive
 
 
 class TestPart1(unittest.TestCase):
@@ -63,3 +63,38 @@ class TestPart1(unittest.TestCase):
         with open(join(dirname(__file__), 'resources', 'explosives_in_cyberspace.txt')) as f:
             puzzle_input = f.read()
         self.assertEqual(183269, len(uncompress_text(puzzle_input.strip())))
+
+
+class TestPart2(unittest.TestCase):
+    """
+    --- Part Two ---
+
+    Apparently, the file actually uses version two of the format.
+
+    In version two, the only difference is that markers within decompressed
+    data are decompressed. This, the documentation explains, provides much
+    more substantial compression capabilities, allowing many-gigabyte files
+    to be stored in only a few kilobytes.
+
+    For example:
+
+    - (3x3)XYZ still becomes XYZXYZXYZ, as the decompressed section
+      contains no markers.
+    - X(8x2)(3x3)ABCY becomes XABCABCABCABCABCABCY, because the
+      decompressed data from the (8x2) marker is then further decompressed,
+      thus triggering the (3x3) marker twice for a total of six ABC
+      sequences.
+    - (27x12)(20x12)(13x14)(7x10)(1x12)A decompresses into a string of A
+      repeated 241920 times.
+    - (25x3)(3x3)ABC(2x3)XY(5x2)PQRSTX(18x9)(3x2)TWO(5x7)SEVEN becomes 445
+      characters long.
+
+    Unfortunately, the computer you brought probably doesn't have enough
+    memory to actually decompress the file; you'll have to come up with
+    another way to get its decompressed length.
+    """
+
+    def test_puzzle_input(self):
+        with open(join(dirname(__file__), 'resources', 'explosives_in_cyberspace.txt')) as f:
+            puzzle_input = f.read()
+        self.assertEqual(11317278863, uncompress_size_recursive(puzzle_input.strip()))
