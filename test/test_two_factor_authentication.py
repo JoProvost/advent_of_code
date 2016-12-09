@@ -2,8 +2,7 @@ import unittest
 from os.path import dirname, join
 from textwrap import dedent
 
-from two_factor_authentication import Font
-from two_factor_authentication import OpticalCharacterRecognition
+from ascii_art_ocr import Font, OpticalCharacterRecognition
 from two_factor_authentication import PixelDisplay
 
 
