@@ -2,7 +2,9 @@ import unittest
 from os.path import dirname, join
 from textwrap import dedent
 
-import two_factor_authentication
+from two_factor_authentication import Font
+from two_factor_authentication import OpticalCharacterRecognition
+from two_factor_authentication import PixelDisplay
 
 
 class TestPart1(unittest.TestCase):
@@ -72,7 +74,7 @@ class TestPart1(unittest.TestCase):
     """
 
     def test_rect_3x2(self):
-        display = two_factor_authentication.PixelDisplay(width=7, height=3)
+        display = PixelDisplay(width=7, height=3)
         display.rect(3, 2)
         self.assertEqual(
             '###....\n'
@@ -82,7 +84,7 @@ class TestPart1(unittest.TestCase):
         )
 
     def test_rotate_column_1_by_1(self):
-        display = two_factor_authentication.PixelDisplay(width=7, height=3)
+        display = PixelDisplay(width=7, height=3)
         display.rect(3, 2)
         display.rotate_column(1, by=1)
         self.assertEqual(
@@ -93,7 +95,7 @@ class TestPart1(unittest.TestCase):
         )
 
     def test_rotate_row_0_by_4(self):
-        display = two_factor_authentication.PixelDisplay(width=7, height=3)
+        display = PixelDisplay(width=7, height=3)
         display.rect(3, 2)
         display.rotate_row(0, by=4)
         self.assertEqual(
@@ -104,7 +106,7 @@ class TestPart1(unittest.TestCase):
         )
 
     def test_parsing_rect_3x2(self):
-        display = two_factor_authentication.PixelDisplay(width=7, height=3)
+        display = PixelDisplay(width=7, height=3)
         display.execute('rect 3x2')
         self.assertEqual(
             '###....\n'
@@ -114,7 +116,7 @@ class TestPart1(unittest.TestCase):
         )
 
     def test_parsing_rotate_column_1_by_1(self):
-        display = two_factor_authentication.PixelDisplay(width=7, height=3)
+        display = PixelDisplay(width=7, height=3)
         display.rect(3, 2)
         display.execute('rotate column x=1 by 1')
         self.assertEqual(
@@ -125,7 +127,7 @@ class TestPart1(unittest.TestCase):
         )
 
     def test_parsing_rotate_row_0_by_4(self):
-        display = two_factor_authentication.PixelDisplay(width=7, height=3)
+        display = PixelDisplay(width=7, height=3)
         display.rect(3, 2)
         display.execute('rotate row y=0 by 4')
         self.assertEqual(
@@ -136,7 +138,7 @@ class TestPart1(unittest.TestCase):
         )
 
     def test_full_parsing(self):
-        display = two_factor_authentication.PixelDisplay(width=7, height=3)
+        display = PixelDisplay(width=7, height=3)
         display.execute(dedent(
             """
             rect 3x2
@@ -156,7 +158,7 @@ class TestPart1(unittest.TestCase):
     def test_puzzle_input(self):
         with open(join(dirname(__file__), 'resources', 'two_factor_authentication.txt')) as f:
             puzzle_input = f.read()
-        display = two_factor_authentication.PixelDisplay(width=50, height=6)
+        display = PixelDisplay(width=50, height=6)
         display.execute(puzzle_input)
         self.assertEqual(121, display.pixels_on())
 
@@ -174,15 +176,7 @@ class TestPart2(unittest.TestCase):
     def test_puzzle_input(self):
         with open(join(dirname(__file__), 'resources', 'two_factor_authentication.txt')) as f:
             puzzle_input = f.read()
-        display = two_factor_authentication.PixelDisplay(width=50, height=6)
+        display = PixelDisplay(width=50, height=6)
         display.execute(puzzle_input)
-        self.assertEqual(dedent(
-            """\
-            ###..#..#.###..#..#..##..####..##..####..###.#....
-            #..#.#..#.#..#.#..#.#..#.#....#..#.#......#..#....
-            #..#.#..#.#..#.#..#.#....###..#..#.###....#..#....
-            ###..#..#.###..#..#.#....#....#..#.#......#..#....
-            #.#..#..#.#.#..#..#.#..#.#....#..#.#......#..#....
-            #..#..##..#..#..##...##..####..##..####..###.####.
-            """),
-            display.show_pixels() + '\n')
+        ocr = OpticalCharacterRecognition(Font('5x6'))
+        self.assertEqual('RURUCEOEIL', ocr.read_text(display.show_pixels()))
