@@ -97,3 +97,46 @@ class TestPart1(unittest.TestCase):
         ])
         vm.run()
         self.assertEqual(318020, vm.registers['a'])
+
+
+class TestPart2(unittest.TestCase):
+    """
+    --- Part Two ---
+
+    As you head down the fire escape to the monorail, you notice it didn't
+    start; register c needs to be initialized to the position of the ignition
+    key.
+
+    If you instead initialize register c to be 1, what value is now left in
+    register a?
+    """
+
+    def test_puzzle(self):
+        vm = VirtualMachine([
+            'cpy 1 a',
+            'cpy 1 b',
+            'cpy 26 d',
+            'jnz c 2',
+            'jnz 1 5',
+            'cpy 7 c',
+            'inc d',
+            'dec c',
+            'jnz c -2',
+            'cpy a c',
+            'inc a',
+            'dec b',
+            'jnz b -2',
+            'cpy c b',
+            'dec d',
+            'jnz d -6',
+            'cpy 19 c',
+            'cpy 11 d',
+            'inc a',
+            'dec d',
+            'jnz d -2',
+            'dec c',
+            'jnz c -5',
+        ])
+        vm.registers['c'] = 1
+        vm.run()
+        self.assertEqual(9227674, vm.registers['a'])
