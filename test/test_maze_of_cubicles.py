@@ -95,3 +95,26 @@ class TestPart1(unittest.TestCase):
         maze = Maze(favorite_number=1364)
         maze_map = maze.explore(from_x=1, from_y=1, to_x=31, to_y=39)
         self.assertEqual(86, len(maze_map.path))
+
+
+class TestPart2(unittest.TestCase):
+    """
+    --- Part Two ---
+
+    How many locations (distinct x,y coordinates, including your starting
+    location) can you reach in at most 50 steps?
+    """
+
+    def test_simplest_happy_path(self):
+        maze = Maze(favorite_number=10)
+        maze_map = maze.explore(from_x=1, from_y=1, to_x=7, to_y=4, max_distance=10)
+        self.assertEqual(0, len(maze_map.path))
+        self.assertEqual(18, len(maze_map.valid_locations()))
+
+        maze_map = maze.explore(from_x=1, from_y=1, to_x=7, to_y=4, max_distance=11)
+        self.assertEqual(11, len(maze_map.path))
+
+    def test_puzzle(self):
+        maze = Maze(favorite_number=1364)
+        maze_map = maze.explore(from_x=1, from_y=1, max_distance=50)
+        self.assertEqual(127, len(maze_map.valid_locations()))

@@ -64,14 +64,15 @@ class Maze(object):
 
         return explorable
 
-    def explore(self, from_x, from_y, to_x, to_y):
+    def explore(self, from_x, from_y, to_x=9999, to_y=9999, max_distance=9999):
         destination = self.codec.encode(to_x, to_y)
         starting_point = self.codec.encode(from_x, from_y)
         explorable = [starting_point]
 
+        distance = 0
         maze_map = MazeMap(starting_point, destination)
 
-        while len(explorable):
+        while len(explorable) and distance < max_distance:
             snapshot = tuple(explorable)
             explorable.clear()
             for location in snapshot:
@@ -79,8 +80,10 @@ class Maze(object):
                     self.print(maze_map)
                     return maze_map
                 explorable.extend(self.explorable_locations(location, maze_map))
+            distance += 1
 
         self.print(maze_map)
+        return maze_map
 
     def print(self, maze_map, width=60, height=60):
         for y in range(height):
@@ -124,3 +127,6 @@ class MazeMap(object):
         if self.known[location] is None:
             return '#'
         return '.'
+
+    def valid_locations(self):
+        return tuple(location for location, visited_from in self.known.items() if visited_from is not None)
