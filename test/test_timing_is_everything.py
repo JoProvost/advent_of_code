@@ -88,3 +88,39 @@ class TestPart1(unittest.TestCase):
                             if sculpture.will_you_get_a_capsule_at(time))
 
         self.assertEqual(16824, right_timing)
+
+
+class TestPart2(unittest.TestCase):
+    """
+    --- Part Two ---
+
+    After getting the first capsule (it contained a star! what great
+    fortune!), the machine detects your success and begins to rearrange
+    itself.
+
+    When it's done, the discs are back in their original configuration as if
+    it were time=0 again, but a new disc with 11 positions and starting at
+    position 0 has appeared exactly one second below the previously-bottom
+    disc.
+
+    With this new disc, and counting again starting from time=0 with the
+    configuration in your puzzle input, what is the first time you can press
+    the button to get another capsule?
+    """
+
+    def test_puzzle(self):
+        sculpture = timing_is_everything.KineticSculpture()
+        sculpture.configure(
+            'Disc #1 has 17 positions; at time=0, it is at position 5.\n'
+            'Disc #2 has 19 positions; at time=0, it is at position 8.\n'
+            'Disc #3 has 7 positions; at time=0, it is at position 1.\n'
+            'Disc #4 has 13 positions; at time=0, it is at position 7.\n'
+            'Disc #5 has 5 positions; at time=0, it is at position 1.\n'
+            'Disc #6 has 3 positions; at time=0, it is at position 0.\n'
+            'Disc #7 has 11 positions; at time=0, it is at position 0.\n'
+        )
+
+        right_timing = next(time for time in range(10000000)
+                            if sculpture.will_you_get_a_capsule_at(time))
+
+        self.assertEqual(3543984, right_timing)
