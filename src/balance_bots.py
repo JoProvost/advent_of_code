@@ -1,6 +1,6 @@
 import re
 from collections import defaultdict
-
+import parser
 
 class MicrochipConsumer(object):
     def __init__(self):
@@ -48,22 +48,14 @@ class MicrochipsFactory(object):
         return next(key for key, value in self.consumers.items() if value.was_responsible_of(low_value, high_value))
 
     def execute(self, text):
-        parse(
+        parser.parse(
             definition={
                 '(?P<microchip_consumer>bot [0-9]*)'
                 ' gives low to (?P<gives_low_to>.*)'
                 ' and high to (?P<gives_high_to>.*)': self.define_bot},
             text=text)
-        parse(
+        parser.parse(
             definition={
                 'value (?P<value>[0-9]*)'
                 ' goes to (?P<microchip_consumer>.*)': self.distribute_microchip},
             text=text)
-
-
-def parse(definition, text):
-    for command in text.splitlines():
-        for regex, method in definition.items():
-            match = re.match(regex, command)
-            if match:
-                method(**{k: v for k, v in match.groupdict().items()})

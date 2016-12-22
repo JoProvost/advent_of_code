@@ -1,6 +1,8 @@
 import re
 from collections import Counter
 
+import parser
+
 
 class PixelDisplay(object):
     OFF = False
@@ -36,16 +38,13 @@ class PixelDisplay(object):
         return pixels_on
 
     def execute(self, commands):
-        command_regex = {
-            'rect (?P<width>[0-9]*)x(?P<height>[0-9]*)': self.rect,
-            'rotate column x=(?P<column>[0-9]*) by (?P<by>[0-9]*)': self.rotate_column,
-            'rotate row y=(?P<row>[0-9]*) by (?P<by>[0-9]*)': self.rotate_row,
-        }
-        for command in commands.splitlines():
-            for regex, method in command_regex.items():
-                match = re.match(regex, command)
-                if match:
-                    method(**{k: int(v) for k, v in match.groupdict().items()})
+        parser.parse(
+            definition={
+                'rect (?P<width>[0-9]*)x(?P<height>[0-9]*)': self.rect,
+                'rotate column x=(?P<column>[0-9]*) by (?P<by>[0-9]*)': self.rotate_column,
+                'rotate row y=(?P<row>[0-9]*) by (?P<by>[0-9]*)': self.rotate_row},
+            text=commands,
+            value_type=int)
 
     @classmethod
     def _rotate(cls, line, by):

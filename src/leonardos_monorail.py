@@ -1,5 +1,7 @@
 import re
 
+import parser
+
 
 class VirtualMachine(object):
     def __init__(self, instructions):
@@ -36,7 +38,7 @@ class VirtualMachine(object):
     def run(self):
         try:
             while True:
-                parse(
+                parser.parse(
                     definition={
                         'cpy (?P<value>.*) (?P<register>.*)': self.cpy,
                         'inc (?P<register>.*)': self.inc,
@@ -47,11 +49,3 @@ class VirtualMachine(object):
                 )
         except IndexError:
             pass
-
-
-def parse(definition, text):
-    for command in text.splitlines():
-        for regex, method in definition.items():
-            match = re.match(regex, command)
-            if match:
-                method(**{k: v for k, v in match.groupdict().items()})
