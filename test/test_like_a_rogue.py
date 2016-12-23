@@ -93,3 +93,16 @@ class TestPart1(unittest.TestCase):
     def test_puzzle(self):
         puzzle = '.^^^.^.^^^^^..^^^..^..^..^^..^.^.^.^^.^^....^.^...^.^^.^^.^^..^^..^.^..^^^.^^...^...^^....^^.^^^^^^^'
         self.assertEqual(1939, count_safe_tiles(build_floor(puzzle, 40)))
+
+
+class TestPart2(unittest.TestCase):
+    """
+    --- Part Two ---
+
+    How many safe tiles are there in a total of 400000 rows?
+    """
+
+    def test_puzzle(self):
+        puzzle = '.^^^.^.^^^^^..^^^..^..^..^^..^.^.^.^^.^^....^.^...^.^^.^^.^^..^^..^.^..^^^.^^...^...^^....^^.^^^^^^^'
+        self.assertEqual(19999535, count_safe_tiles(build_floor(puzzle, 400000)))
+
