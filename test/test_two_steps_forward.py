@@ -68,7 +68,7 @@ class TestPart1(unittest.TestCase):
     def test_shortest_path_on_all_open_doors(self):
         security = DisabledSecurity()
         maze = Maze(security)
-        path = maze.shortest_path_to(3, 3)
+        path = maze.best_path_to(3, 3)
         self.assertEqual(6, len(path))
 
     def test_easter_bunny_vault_security(self):
@@ -81,23 +81,67 @@ class TestPart1(unittest.TestCase):
     def test_example_1(self):
         security = EasterBunnyVaultSecurity('ihgpwlah')
         maze = Maze(security)
-        path = maze.shortest_path_to(3, 3)
+        path = maze.best_path_to(3, 3)
         self.assertEqual('DDRRRD', str(path))
 
     def test_example_2(self):
         security = EasterBunnyVaultSecurity('kglvqrro')
         maze = Maze(security)
-        path = maze.shortest_path_to(3, 3)
+        path = maze.best_path_to(3, 3)
         self.assertEqual('DDUDRLRRUDRD', str(path))
 
     def test_example_3(self):
         security = EasterBunnyVaultSecurity('ulqzkmiv')
         maze = Maze(security)
-        path = maze.shortest_path_to(3, 3)
+        path = maze.best_path_to(3, 3)
         self.assertEqual('DRURDRUDDLLDLUURRDULRLDUUDDDRR', str(path))
 
     def test_puzzle(self):
         security = EasterBunnyVaultSecurity('vkjiggvb')
         maze = Maze(security)
-        path = maze.shortest_path_to(3, 3)
+        path = maze.best_path_to(3, 3)
         self.assertEqual('RDRRULDDDR', str(path))
+
+
+class TestPart2(unittest.TestCase):
+    """
+    --- Part Two ---
+
+    You're curious how robust this security solution really is, and so you
+    decide to find longer and longer paths which still provide access to the
+    vault. You remember that paths always end the first time they reach the
+    bottom-right room (that is, they can never pass through it, only end in
+    it).
+
+    For example:
+
+    If your passcode were ihgpwlah, the longest path would take 370
+    steps.
+    - With kglvqrro, the longest path would be 492 steps long.
+    - With ulqzkmiv, the longest path would be 830 steps long.
+
+    What is the length of the longest path that reaches the vault?
+    """
+    def test_example_1(self):
+        security = EasterBunnyVaultSecurity('ihgpwlah')
+        maze = Maze(security)
+        path = maze.worst_path_to(3, 3)
+        self.assertEqual(370, len(path))
+
+    def test_example_2(self):
+        security = EasterBunnyVaultSecurity('kglvqrro')
+        maze = Maze(security)
+        path = maze.worst_path_to(3, 3)
+        self.assertEqual(492, len(path))
+
+    def test_example_3(self):
+        security = EasterBunnyVaultSecurity('ulqzkmiv')
+        maze = Maze(security)
+        path = maze.worst_path_to(3, 3)
+        self.assertEqual(830, len(path))
+
+    def test_puzzle(self):
+        security = EasterBunnyVaultSecurity('vkjiggvb')
+        maze = Maze(security)
+        path = maze.worst_path_to(3, 3)
+        self.assertEqual(392, len(path))

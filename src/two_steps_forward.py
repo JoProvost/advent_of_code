@@ -58,19 +58,32 @@ class Maze(object):
         self.security = security
         self.dimensions = (width, height)
 
-    def shortest_path_to(self, x, y):
+    def best_path_to(self, x, y):
+        return self._path_to(x, y, until_the_end=False)
+
+    def worst_path_to(self, x, y):
+        return self._path_to(x, y, until_the_end=True)
+
+    def _path_to(self, x, y, until_the_end=False):
         destination = (x, y)
         paths = (Path(),)
+
+        longest_path = None
 
         while paths:
             next_paths = []
             for path in paths:
                 if path.location == destination:
-                    return path
+                    if until_the_end:
+                        longest_path = path
+                        continue
+                    else:
+                        return path
                 open_doors = self.security.open_doors(path)
                 next_paths.extend(path.next(self.dimensions, open_doors))
             paths = tuple(next_paths)
-        raise StopIteration()
+
+        return longest_path
 
 
 def move(location, offset):
