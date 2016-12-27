@@ -26,3 +26,12 @@ def josephus_equation(nb_elves):
     safe_position = 2 * l + 1
     return safe_position
 
+
+def simple_algorithm_2(nb_elves):
+    elves = [i+1 for i in range(nb_elves)]
+
+    while len(elves) > 2:
+        to_remove = math.floor(len(elves) / 2)
+        elves.pop(to_remove)
+        elves = elves[1:] + [elves[0]]
+    return elves[0]
