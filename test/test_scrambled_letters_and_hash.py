@@ -2,7 +2,7 @@ import unittest
 
 from os.path import join, dirname
 
-from scrambled_letters_and_hash import StringManipulator
+from scrambled_letters_and_hash import StringManipulator, ReversedStringManipulator
 
 
 class TestPart1(unittest.TestCase):
@@ -96,3 +96,30 @@ class TestPart1(unittest.TestCase):
         s = StringManipulator('abcdefgh')
         s.transform(puzzle_input)
         self.assertEqual('baecdfgh', s.string)
+
+
+class TestPart2(unittest.TestCase):
+    """
+    --- Part Two ---
+
+    You scrambled the password correctly, but you discover that you
+    can't actually modify the password file on the system. You'll need to un-
+    scramble one of the existing passwords by reversing the scrambling
+    process.
+
+    What is the un-scrambled version of the scrambled password fbgdceah?
+    """
+
+    def test_reversed_puzzle(self):
+        with open(join(dirname(__file__), 'resources', 'scrambled_letters_and_hash.txt')) as f:
+            puzzle_input = f.read()
+        s = ReversedStringManipulator('baecdfgh')
+        s.transform(puzzle_input)
+        self.assertEqual('abcdefgh', s.string)
+
+    def test_puzzle(self):
+        with open(join(dirname(__file__), 'resources', 'scrambled_letters_and_hash.txt')) as f:
+            puzzle_input = f.read()
+        s = ReversedStringManipulator('fbgdceah')
+        s.transform(puzzle_input)
+        self.assertEqual('cegdahbf', s.string)

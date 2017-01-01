@@ -73,7 +73,7 @@ class StringManipulator(object):
         """
         x = int(x)
         if x:
-            self.rotate_right(len(self.string) - x)
+            StringManipulator.rotate_right(self, len(self.string) - x)
 
     def rotate_based_on_letter(self, x):
         """
@@ -85,7 +85,8 @@ class StringManipulator(object):
         additional time if the index was at least 4.
         """
         index = self.string.index(x)
-        self.rotate_right(1 + index + (1 if index >= 4 else 0))
+        rotate = 1 + index + (1 if index >= 4 else 0)
+        StringManipulator.rotate_right(self, rotate)
 
     def reverse(self, x, y):
         """
@@ -120,3 +121,34 @@ class StringManipulator(object):
                 'move position (?P<x>.*) to position (?P<y>.*)': self.move,
             },
             text=text)
+
+
+class ReversedStringManipulator(StringManipulator):
+
+    def transform(self, text):
+        StringManipulator.transform(self, reversed(text.splitlines()))
+
+    def rotate_right(self, x):
+        StringManipulator.rotate_left(self, x)
+
+    def rotate_left(self, x):
+        StringManipulator.rotate_right(self, x)
+
+    def rotate_based_on_letter(self, x):
+        # This will only work with passwords the size of the puzzle... :)
+        reversed_rotate_table = {
+            1: 1,
+            3: 2,
+            5: 3,
+            7: 4,
+            2: 6,
+            4: 7,
+            6: 8,
+            0: 9,
+        }
+
+        index = self.string.index(x)
+        StringManipulator.rotate_left(self, reversed_rotate_table[index])
+
+    def move(self, x, y):
+        StringManipulator.move(self, y, x)

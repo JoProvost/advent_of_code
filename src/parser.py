@@ -2,7 +2,8 @@ import re
 
 
 def parse(definition, text, value_type=lambda x: x):
-    for command in text.splitlines():
+    commands = text.splitlines() if isinstance(text, str) else text
+    for command in commands:
         for regex, method in definition.items():
             match = re.match(regex, command)
             if match:
