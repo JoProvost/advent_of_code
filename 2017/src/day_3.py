@@ -23,3 +23,38 @@ def location_of(number):
 
 def moves_for(location):
     return sum((abs(pos) for pos in location))
+
+
+def index_of(location):
+    dist = max((abs(pos) for pos in location))
+    root = 2 * dist + 1
+    side = (root - 1)
+    number = root * root
+
+    if location[1] == dist:
+        return number - dist + location[0]
+    if location[0] == -dist:
+        return number - side - dist + location[1]
+    if location[1] == -dist:
+        return number - (2*side) - dist - location[0]
+    if location[0] == dist:
+        return number - (3*side) - dist - location[1]
+
+
+def neighbors(location):
+    x, y = location
+    return ((x-1, y-1), (x, y-1), (x+1, y-1),
+            (x+1, y), (x+1, y+1), (x, y+1),
+            (x-1, y+1), (x-1, y))
+
+
+def sum_of_neighbors(location, l):
+    return sum(l[index_of(n) - 1] for n in neighbors(location) if index_of(n) <= len(l))
+
+
+def spiral_for(cond):
+    l = [1]
+    while not cond(l[-1]):
+        l.append(sum_of_neighbors(location_of(len(l) + 1), l))
+
+    return l
