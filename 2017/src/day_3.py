@@ -49,12 +49,13 @@ def neighbors(location):
 
 
 def sum_of_neighbors(location, l):
-    return sum(l[index_of(n) - 1] for n in neighbors(location) if index_of(n) <= len(l))
+    return sum(l[index_of(n) - 1] for n in neighbors(location)
+               if index_of(n) <= len(l))
 
 
 def spiral_for(cond):
-    l = [1]
-    while not cond(l[-1]):
-        l.append(sum_of_neighbors(location_of(len(l) + 1), l))
+    linear = [1]
+    while not cond(linear[-1]):
+        linear.append(sum_of_neighbors(location_of(len(linear) + 1), linear))
 
-    return l
+    return linear

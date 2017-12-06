@@ -1,7 +1,6 @@
 import unittest
 
-from day_4 import is_passphrase_valid, valid_passphrases, \
-    is_passphrase_v2_valid, valid_passphrases_v2
+from day_4 import is_passphrase_valid, valid_passphrases, sorted_word
 from challenge_day_4 import challenge
 
 
@@ -63,9 +62,13 @@ class TestPart2(unittest.TestCase):
     """
 
     def test_simple_matches(self):
-        self.assertTrue(is_passphrase_v2_valid("abcde fghij"))
-        self.assertFalse(is_passphrase_v2_valid("abcde xyz ecdab"))
-        self.assertEqual(1, len(valid_passphrases_v2(("abcde fghij", "abcde xyz ecdab"))))
+        self.assertTrue(is_passphrase_valid(
+            "abcde fghij", trans=sorted_word))
+        self.assertFalse(is_passphrase_valid(
+            "abcde xyz ecdab", trans=sorted_word))
+        self.assertEqual(1, len(valid_passphrases(
+            ("abcde fghij", "abcde xyz ecdab"), trans=sorted_word)))
 
     def test_challenge(self):
-        self.assertEqual(231, len(valid_passphrases_v2((challenge))))
+        self.assertEqual(231, len(valid_passphrases(
+            challenge, trans=sorted_word)))

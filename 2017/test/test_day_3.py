@@ -109,7 +109,7 @@ class TestPart2(unittest.TestCase):
         self.assertEqual(1, index_of(location_of(1)))
 
     def test_building_table(self):
-        self.assertEqual([1, 1, 2], spiral_for(2))
+        self.assertEqual([1, 1, 2], spiral_for(lambda x: x == 2))
         self.assertEqual(
             [1, 1, 2, 4, 5, 10, 11, 23, 25, 26, 54, 57, 59, 122, 133, 142, 147,
              304, 330, 351, 362, 747, 806],
