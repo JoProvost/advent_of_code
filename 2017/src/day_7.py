@@ -16,10 +16,10 @@ class Tower(object):
         self.sub_programs[name] = tuple(dep.replace(",", "") for dep in deps)
 
     def root(self):
-        return next(iter(
+        return first(
             set(self.sub_programs.keys()) -
             set(flatten(self.sub_programs.values()))
-        ))
+        )
 
     def size(self, program):
         return self.sizes[program] + sum(self.size(sub) for sub in self.sub_programs[program])
@@ -32,14 +32,13 @@ class Tower(object):
         for sub in self.sub_programs[program]:
             sizes[self.size(sub)].append(sub)
         unbalanced_size = first(s for s, p in sizes.iteritems() if len(p) == 1) or 0
-        balanced_size = next(iter(set(sizes.keys()) - {unbalanced_size}))
-        unbalanced_program = sizes[unbalanced_size][0]
+        balanced_size, = set(sizes.keys()) - {unbalanced_size}
+        unbalanced_by = first(sizes[unbalanced_size])
         diff = balanced_size - unbalanced_size
-        return unbalanced_program, self.sizes[unbalanced_program] + diff
+        return unbalanced_by, self.sizes[unbalanced_by] + diff
 
     def unbalanced_subs(self, program):
-        z = tuple(self.corrected_size(s) for s in self.sub_programs[program] if self.is_unbalanced(s))
-        return z
+        return (self.corrected_size(s) for s in self.sub_programs[program] if self.is_unbalanced(s))
 
     def adjustment(self, program):
         for unbalanced_by, should_be in self.unbalanced_subs(program):
